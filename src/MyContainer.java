@@ -1,15 +1,23 @@
 import java.util.Iterator;
 
+/**
+ * A custom container class for storing integers.
+ */
 public class MyContainer implements Iterable<Integer> {
+    private static final int DEFAULT_LENGTH = 4;
+    private int[] array;
+    private int pointer;
+
     public MyContainer() {
         array = new int[DEFAULT_LENGTH];
         pointer = 0;
     }
 
-    private static final int DEFAULT_LENGTH = 4;
-    private int[] array;
-    private int pointer;
-
+    /**
+     * Adds an integer to the container.
+     *
+     * @param number the integer to add
+     */
     public void add(int number) {
         if (pointer >= array.length) {
             resizeArray();
@@ -17,6 +25,12 @@ public class MyContainer implements Iterable<Integer> {
         array[pointer++] = number;
     }
 
+    /**
+     * Removes the integer at the specified index from the container.
+     *
+     * @param index the index of the integer to remove
+     * @throws IndexOutOfBoundsException if the index is out of bounds
+     */
     public void removeAt(int index) {
         if (index < 0 || index >= pointer) {
             throw new IndexOutOfBoundsException("Index out of the bounds of the container");
@@ -29,6 +43,13 @@ public class MyContainer implements Iterable<Integer> {
         --pointer;
     }
 
+    /**
+     * Gets the integer at the specified index from the container.
+     *
+     * @param index the index of the integer to retrieve
+     * @return the integer at the specified index
+     * @throws IndexOutOfBoundsException if the index is out of bounds
+     */
     public int getValue(int index) {
         if (index < 0 || index >= pointer) {
             throw new IndexOutOfBoundsException("Index out of the bounds of the container");
@@ -37,6 +58,13 @@ public class MyContainer implements Iterable<Integer> {
         return array[index];
     }
 
+    /**
+     * Sets the value of the integer at the specified index in the container.
+     *
+     * @param value the new value to set
+     * @param index the index of the integer to set
+     * @throws IndexOutOfBoundsException if the index is out of bounds
+     */
     public void setValue(int value, int index) {
         if (index < 0 || index >= pointer) {
             throw new IndexOutOfBoundsException("Index out of the bounds of the container");
@@ -45,16 +73,25 @@ public class MyContainer implements Iterable<Integer> {
         array[index] = value;
     }
 
+    /**
+     * @return the size of the container
+     */
+    public int size() {
+        return pointer;
+    }
+
     private void resizeArray() {
         int[] newArray = new int[array.length * 2];
         System.arraycopy(array, 0, newArray, 0, array.length);
         array = newArray;
     }
 
-    public int size() {
-        return pointer;
-    }
-
+    /**
+     * Compares this container with the specified object for equality.
+     *
+     * @param obj the object to compare with
+     * @return {@code true} if the containers are equal; {@code false} otherwise
+     */
     @Override
     public boolean equals(Object obj) {
         if (obj == null || obj.getClass() != this.getClass()) {
@@ -63,24 +100,26 @@ public class MyContainer implements Iterable<Integer> {
 
         final MyContainer other = (MyContainer) obj;
         for (int i = 0; i < pointer; ++i) {
-            if (array[i] != other.array[i])
+            if (array[i] != other.array[i]) {
                 return false;
+            }
         }
 
         return true;
     }
 
+    /**
+     * @return a string representation of the container
+     */
     @Override
-    public String toString(){
+    public String toString() {
         StringBuilder builder = new StringBuilder("count: " + size() + "\n elements: \n");
-        for(int elem : this)
-        {
-            builder.append(elem + '\n');
+        for (int elem : this) {
+            builder.append(elem).append('\n');
         }
 
         return builder.toString();
     }
-
 
     @Override
     public Iterator<Integer> iterator() {
